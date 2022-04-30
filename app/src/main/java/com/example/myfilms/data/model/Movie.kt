@@ -49,5 +49,7 @@ data class Movie(
 
     @SerializedName("tagline")
     @Expose
-    val tagline: String? = null
+    val tagline: String? = null,
+
+    var isLiked: Boolean = false
 ): Parcelable

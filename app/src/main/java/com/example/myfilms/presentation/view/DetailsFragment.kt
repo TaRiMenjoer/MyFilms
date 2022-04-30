@@ -10,10 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.myfilms.R
 import com.example.myfilms.databinding.FragmentDetailsBinding
 import com.example.myfilms.presentation.Utils.LoadingState
 import com.example.myfilms.presentation.viewModel.ViewModelDetails
-import com.example.myfilms.presentation.viewModel.ViewModelMovie
 import com.example.myfilms.presentation.viewModel.ViewModelProviderFactory
 import com.squareup.picasso.Picasso
 
@@ -38,7 +38,7 @@ class DetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,10 +47,34 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getSessionId()
+
         initViewModel()
+
         getMovieById(movieId)
 
         onTrailerClick()
+
+        setOnClickFavourites()
+
+        setStar()
+    }
+
+    private fun setOnClickFavourites() {
+
+        binding.ivAddFavorite.setOnClickListener {
+            viewModel.addOrRemoveFavourites(movieId , sessionId)
+        }
+    }
+
+    private fun setStar(){
+        viewModel.movie.observe(viewLifecycleOwner){
+
+            if (it.isLiked == true) {
+                binding.ivAddFavorite.setImageResource(R.drawable.ic_star_yellow)
+            } else {
+                binding.ivAddFavorite.setImageResource(R.drawable.ic_star_white)
+            }
+        }
     }
 
     private fun getSessionId() {
@@ -65,9 +89,9 @@ class DetailsFragment : Fragment() {
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
 
 
-        viewModel = ViewModelProvider(this , viewModelProviderFactory)[ViewModelDetails::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[ViewModelDetails::class.java]
 
-      //  viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
+        //  viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
         viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
     }
 

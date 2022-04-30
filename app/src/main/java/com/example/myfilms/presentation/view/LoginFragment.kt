@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -78,10 +78,6 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.btnGuest.setOnClickListener {
-            hideKeyboard(requireActivity())
-            deleteSessionId()
-        }
     }
 
     private fun observeLoadingState() {
@@ -104,15 +100,15 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun deleteSessionId() {
-        try {
-            viewModel.deleteSession(sessionId)
-            editor.clear().commit()
-            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
-        } catch (e: Exception) {
-            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
-        }
-    }
+//    private fun deleteSessionId() {
+//        try {
+//            viewModel.deleteSession(sessionId)
+//            editor.clear().commit()
+//            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
+//        } catch (e: Exception) {
+//            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
+//        }
+//    }
 
     private fun putDataIntoPref(string: String) {
         editor.putString(SESSION_ID_KEY, string)

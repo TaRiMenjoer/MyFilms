@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigation.visibility = View.VISIBLE
                     toolbarLayout.visibility = View.VISIBLE
                 }
-                R.id.favorites_fragment -> {
+                R.id.favouritesFragment -> {
                     bottomNavigation.visibility = View.VISIBLE
                     toolbarLayout.visibility = View.VISIBLE
                 }
@@ -106,6 +106,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    companion object{
+        var  isFirstDownloaded = false
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.myfilms.presentation.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class MoviesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         prefSettings = context?.getSharedPreferences(
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
         ) as SharedPreferences
@@ -41,13 +43,14 @@ class MoviesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         getSessionId()
         initAndObserveViewModel()
@@ -59,9 +62,8 @@ class MoviesFragment : Fragment() {
 
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
 
-
-        //viewModel = ViewModelProvider(this)[ViewModelMovie()::class.java]
         viewModel = ViewModelProvider(this , viewModelProviderFactory)[ViewModelMovie::class.java]
+
 
         viewModel.downloadData(PAGE)
 
@@ -119,7 +121,8 @@ class MoviesFragment : Fragment() {
 
     companion object {
 
-        private var sessionId: String = ""
+        var sessionId: String = ""
         var PAGE = 1
+
     }
 }

@@ -15,19 +15,6 @@ interface ApiService {
         @Query("page") page: Int = PARAMS_PAGE
     ):Response<Result>
 
-    @GET("movie/{movie_id}")
-    suspend fun getById(
-        @Path("movie_id") id: Int,
-        @Query("api_key") apiKey: String = API_KEY,
-        @Query("language") language: String = PARAMS_LANGUAGE
-    ): Response<Movie>
-
-    @GET("account/{account_id}/favorite/movies")
-    suspend fun getFavoutitsMovies(
-        @Query("api_key") apiKey: String = API_KEY,
-        @Query("session_id") sessionId: String = SESSION_ID,
-        @Query("language") language: String = PARAMS_LANGUAGE
-    ): Response<Movie>
 
     @GET("authentication/token/new")
     suspend fun getToken(
@@ -51,7 +38,21 @@ interface ApiService {
         "Content-type: application/json;charset=utf-8"
     )
 
+    @POST("account/{account_id}/favorite")
+    suspend fun addFavorite(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("session_id") session_id: String = SESSION_ID,
+        @Body postMovie: PostMovie
+    ): Response<FavoriteResult>
 
+    @GET("account/{account_id}/favorite/movies")
+    suspend fun getFavorites(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("session_id") session_id: String = SESSION_ID,
+        @Query("language") language: String = PARAMS_LANGUAGE,
+        @Query("sort_by") sort_by: String = SORT_BY_POPULARITY,
+//        @Query("page") page: Int = PARAMS_PAGE
+    ): Response<Result>
 
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
     suspend fun deleteSession(
@@ -69,7 +70,7 @@ interface ApiService {
     companion object {
 
         private var SESSION_ID = ""
-        private var API_KEY = "a14a376a2704b9c91446a56f236f5b50"
+        private var API_KEY = "8dab9f18e7e096af1d6f411f84480dbe"
         private var PARAMS_LANGUAGE = "ru"
         private var SORT_BY_POPULARITY = "popularity.desc"
         private var MIN_VOTE_COUNT_VALUE = 1000

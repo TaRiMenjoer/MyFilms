@@ -22,11 +22,11 @@
         tools:layout="@layout/fragment_details" >
         <action
             android:id="@+id/action_details_fragment_to_favouritexFragment"
-            app:destination="@id/favouritexFragment" />
+            app:destination="@id/favouritesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/favouritexFragment"
-        android:name="com.example.myfilms.presentation.view.FavouritexFragment"
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.myfilms.presentation.view.FavouritesFragment"
         android:label="fragment_favouritex"
-        tools:layout="@layout/fragment_favouritex" />
+        tools:layout="@layout/fragment_favourites" />
 </navigation>
