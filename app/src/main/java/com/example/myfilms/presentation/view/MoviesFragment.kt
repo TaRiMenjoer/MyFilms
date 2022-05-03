@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -104,15 +105,39 @@ class MoviesFragment : Fragment() {
     }
 
 
+//    private fun onBackPressed() {
+//        val callback = object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                try {
+//                    viewModel.deleteSession(sessionId)
+//                    editor.clear().commit()
+//                    findNavController().popBackStack()
+//                } catch (e: Exception) {
+//                    findNavController().popBackStack()
+//                }
+//            }
+//        }
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+//    }
+
     private fun onBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                try {
-                    viewModel.deleteSession(sessionId)
-                    editor.clear().commit()
-                    findNavController().popBackStack()
-                } catch (e: Exception) {
-                    findNavController().popBackStack()
+                requireContext().let {
+                    AlertDialog
+                        .Builder(it)
+                        .setMessage("Выйти?")
+                        .setPositiveButton("Да") { dialogInterface, i ->
+                            try {
+                                viewModel.deleteSession(sessionId)
+                                findNavController().popBackStack()
+                            } catch (e: java.lang.Exception) {
+                                findNavController().popBackStack()
+                            }
+                        }
+                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .create()
+                        .show()
                 }
             }
         }

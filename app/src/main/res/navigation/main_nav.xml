@@ -12,6 +12,7 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_fragment_to_movies_nav"
-            app:destination="@id/movies_nav" />
+            app:destination="@id/movies_nav"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>
