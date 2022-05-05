@@ -33,11 +33,16 @@ class LoginFragment : Fragment() {
     private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings =
-            context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+        prefSettings =context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+
+        if(prefSettings.getString(SESSION_ID_KEY  , null ) != null){
+            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
+        }
+
         editor = prefSettings.edit()
         super.onCreate(savedInstanceState)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -64,6 +66,7 @@ class FavouritesFragment : Fragment() {
                 else -> throw RuntimeException("Error")
             }
         }
+        onBackPressed()
     }
     private fun getSessionId() {
         try {
@@ -86,6 +89,30 @@ class FavouritesFragment : Fragment() {
             putInt(DetailsFragment.KEY_MOVIE, movieId)
         }
         findNavController().navigate(R.id.action_favouritesFragment_to_detailsFragment, args)
+    }
+    private fun onBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+//                viewModel.deleteSession(sessionId)
+//                editor.clear().commit()
+//                findNavController().popBackStack(R.id.login_fragment , true)
+
+                requireContext().let {
+                    AlertDialog
+                        .Builder(it)
+                        .setMessage("Выйти?")
+                        .setPositiveButton("Да") { dialogInterface, i ->
+                            requireActivity().finish()
+                        }
+                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .create()
+                        .show()
+                }
+
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
 }

@@ -28,7 +28,7 @@
         android:title="@string/about"/>
 
     <item
-        android:id="@+id/exit"
+        android:id="@+id/login_nav"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
         android:title="@string/exit"/>
 

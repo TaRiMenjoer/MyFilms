@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
@@ -62,7 +64,7 @@ class MoviesFragment : Fragment() {
 
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
 
-        viewModel = ViewModelProvider(this , viewModelProviderFactory)[ViewModelMovie::class.java]
+        viewModel = ViewModelProvider(this, viewModelProviderFactory)[ViewModelMovie::class.java]
 
 
         viewModel.downloadData(PAGE)
@@ -107,13 +109,23 @@ class MoviesFragment : Fragment() {
     private fun onBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                try {
-                    viewModel.deleteSession(sessionId)
-                    editor.clear().commit()
-                    findNavController().popBackStack()
-                } catch (e: Exception) {
-                    findNavController().popBackStack()
+
+//                viewModel.deleteSession(sessionId)
+//                editor.clear().commit()
+//                findNavController().popBackStack(R.id.login_fragment , true)
+
+                requireContext().let {
+                    AlertDialog
+                        .Builder(it)
+                        .setMessage("Выйти?")
+                        .setPositiveButton("Да") { dialogInterface, i ->
+                            requireActivity().finish()
+                        }
+                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .create()
+                        .show()
                 }
+
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
