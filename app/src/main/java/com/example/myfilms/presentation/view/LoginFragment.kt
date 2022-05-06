@@ -33,16 +33,17 @@ class LoginFragment : Fragment() {
     private lateinit var editor: SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        prefSettings =context?.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE) as SharedPreferences
+        prefSettings = context?.getSharedPreferences(
+            APP_SETTINGS,
+            Context.MODE_PRIVATE
+        ) as SharedPreferences
 
-        if(prefSettings.getString(SESSION_ID_KEY  , null ) != null){
+        if (prefSettings.getString(SESSION_ID_KEY, null) != null) {
             findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
         }
-
         editor = prefSettings.edit()
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +71,9 @@ class LoginFragment : Fragment() {
     private fun onLoginClick() {
         binding.btnLogin.setOnClickListener {
             hideKeyboard(requireActivity())
-            if (!binding.etUsername.text.isNullOrBlank() && !binding.etPassword.text.isNullOrBlank()) {
+            if (!binding.etUsername.text.isNullOrBlank()
+                && !binding.etPassword.text.isNullOrBlank()
+            ) {
                 val data = LoginApprove(
                     username = binding.etUsername.text.toString().trim(),
                     password = binding.etPassword.text.toString().trim(),
@@ -105,23 +108,12 @@ class LoginFragment : Fragment() {
         }
     }
 
-//    private fun deleteSessionId() {
-//        try {
-//            viewModel.deleteSession(sessionId)
-//            editor.clear().commit()
-//            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
-//        } catch (e: Exception) {
-//            findNavController().navigate(R.id.action_login_fragment_to_movies_nav)
-//        }
-//    }
-
     private fun putDataIntoPref(string: String) {
         editor.putString(SESSION_ID_KEY, string)
         editor.commit()
         binding.etUsername.text = null
         binding.etPassword.text = null
     }
-
 
     private fun hideKeyboard(activity: Activity) {
         val inputMethodManager =

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/movies_fragment"
         android:name="com.example.myfilms.presentation.view.MoviesFragment"
-        android:label="My movies"
+        android:label="Мои фильмы"
         tools:layout="@layout/fragment_movies">
         <action
             android:id="@+id/action_movies_fragment_to_details_fragment"
@@ -16,8 +16,7 @@
     <fragment
         android:id="@+id/details_fragment"
         android:name="com.example.myfilms.presentation.view.DetailsFragment"
-        android:label="My movies"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
         <action
             android:id="@+id/action_details_fragment_to_favouritexFragment"
             app:destination="@id/favouritesFragment" />
@@ -25,6 +24,6 @@
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.example.myfilms.presentation.view.FavouritesFragment"
-        android:label="fragment_favouritex"
+        android:label="Избранные фильмы"
         tools:layout="@layout/fragment_favourites" />
 </navigation>

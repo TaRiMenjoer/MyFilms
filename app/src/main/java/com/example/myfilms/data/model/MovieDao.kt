@@ -14,11 +14,9 @@ interface MovieDao {
     @Query("SELECT * FROM movie_table WHERE id == :movieId ")
     fun getMovieById(movieId: Int): Movie
 
+    @Query("SELECT ALL * FROM movie_table WHERE isLiked == 1 ")
+    fun getFavouriteMovies(): List<Movie>
 
     @Update
     fun changeLiked(movie: Movie)
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    fun changeLiked(movie: Movie)
-
-
 }

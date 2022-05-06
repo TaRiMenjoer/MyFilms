@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -42,12 +41,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         init()
         bottomNavInit()
         sideBarInit()
         setVisibility()
+
         prefSettings = this.getSharedPreferences(
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
         ) as SharedPreferences
@@ -73,6 +75,11 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigation.visibility = View.GONE
                     toolbarLayout.visibility = View.GONE
                 }
+
+                R.id.detailsFragment -> {
+                    bottomNavigation.visibility = View.GONE
+                    toolbarLayout.visibility = View.GONE
+                }
             }
         }
     }
@@ -85,17 +92,12 @@ class MainActivity : AppCompatActivity() {
         )[MainViewModel::class.java]
 
         navController = findNavController(R.id.main_container)
-       /* bottomNavigation = binding.contentMain.bottomNavigation
-        toolbarLayout = binding.contentMain.toolbarLayout
-        toolbar = binding.contentMain.topToolbar*/
-
         bottomNavigation = findViewById(R.id.bottom_navigation)
         toolbarLayout = findViewById(R.id.toolbarLayout)
         toolbar = findViewById(R.id.topToolbar)
 
         drawerLayout = binding.drawerMainActivity
         sideBar = binding.sideNavigation
-
     }
 
     private fun sideBarInit() {
@@ -146,16 +148,16 @@ class MainActivity : AppCompatActivity() {
                     this.let {
                         AlertDialog
                             .Builder(it)
-                            .setMessage("Выйти?")
-                            .setPositiveButton("Да") { dialogInterface, i ->
+                            .setMessage(getString(R.string.exit_from_login))
+                            .setPositiveButton(getString(R.string.yes)) { dialogInterface, i ->
 
                                 viewModel.deleteSession()
                                 editor.clear().commit()
-                                navController.popBackStack(R.id.login_fragment, true )
+                                navController.popBackStack(R.id.login_fragment, true)
                                 navController.navigate(R.id.login_fragment)
 
                             }
-                            .setNegativeButton("Нет") { dialogInterface, i -> }
+                            .setNegativeButton(getString(R.string.No)) { dialogInterface, i -> }
                             .create()
                             .show()
                     }
@@ -166,17 +168,17 @@ class MainActivity : AppCompatActivity() {
                 R.id.rate_us -> {
 
                 }
-                else -> throw RuntimeException("Wrong id")
+                else -> throw RuntimeException(getString(R.string.wrong_id))
             }
 
             return@setNavigationItemSelectedListener true
         }
 
     }
+
     private fun findCurrentFragmentId(): Int {
         return navController.currentDestination?.id as Int
     }
-
 
     private fun bottomNavInit() {
         bottomNavigation.labelVisibilityMode =
@@ -208,9 +210,8 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-
-    companion object{
-        var  isFirstDownloaded = false
+    companion object {
+        var isFirstDownloaded = false
     }
 
 }

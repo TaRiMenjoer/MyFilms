@@ -6,10 +6,10 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profilePic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="@dimen/_50dp"
+        android:layout_height="@dimen/_50dp"
+        android:layout_marginLeft="@dimen/_16dp"
+        android:layout_marginRight="@dimen/_16dp"
         tools:src="@tools:sample/avatars" />
 
     <TextView
@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:text="User Name"
         android:layout_below="@+id/profilePic"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginLeft="@dimen/_16dp"
         android:textStyle="bold"
-        android:textSize="16dp"/>
+        android:textSize="@dimen/_16sp"/>
 
 </RelativeLayout>

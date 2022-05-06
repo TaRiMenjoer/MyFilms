@@ -4,11 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Movie::class] , version = 1)
-abstract class DataBase: RoomDatabase() {
+@Database(entities = [Movie::class], version = 1)
+abstract class DataBase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 
     companion object {
@@ -21,7 +19,7 @@ abstract class DataBase: RoomDatabase() {
 //            }
 //        }
 
-        fun getDataBase(context: Context): DataBase{
+        fun getDataBase(context: Context): DataBase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
@@ -32,7 +30,6 @@ abstract class DataBase: RoomDatabase() {
             return INSTANCE!!
         }
     }
-
 }
 
 

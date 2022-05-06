@@ -3,14 +3,12 @@ package com.example.myfilms.presentation.view
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
@@ -53,7 +51,6 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         getSessionId()
         initAndObserveViewModel()
         onMovieClickListener()
@@ -64,10 +61,12 @@ class MoviesFragment : Fragment() {
 
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
 
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[ViewModelMovie::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            viewModelProviderFactory
+        )[ViewModelMovie::class.java]
 
-
-        viewModel.downloadData(PAGE)
+        viewModel.downloadData()
 
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
@@ -77,7 +76,7 @@ class MoviesFragment : Fragment() {
                     adapter.submitList(it)
                     binding.rvMovies.adapter = adapter
                 }
-                else -> throw RuntimeException("Error")
+                else -> throw RuntimeException(getString(R.string.error))
             }
         }
     }
@@ -110,18 +109,15 @@ class MoviesFragment : Fragment() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
 
-//                viewModel.deleteSession(sessionId)
-//                editor.clear().commit()
-//                findNavController().popBackStack(R.id.login_fragment , true)
-
                 requireContext().let {
                     AlertDialog
                         .Builder(it)
-                        .setMessage("Выйти?")
-                        .setPositiveButton("Да") { dialogInterface, i ->
+                        .setMessage(getString(R.string.exit_app))
+                        .setPositiveButton(R.string.yes) { dialogInterface, i ->
+
                             requireActivity().finish()
                         }
-                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .setNegativeButton(R.string.No) { dialogInterface, i -> }
                         .create()
                         .show()
                 }
@@ -134,7 +130,5 @@ class MoviesFragment : Fragment() {
     companion object {
 
         var sessionId: String = ""
-        var PAGE = 1
-
     }
 }

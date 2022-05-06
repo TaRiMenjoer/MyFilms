@@ -1,4 +1,5 @@
 package com.example.myfilms.data.model
+
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -52,4 +53,4 @@ data class Movie(
     val tagline: String? = null,
 
     var isLiked: Boolean = false
-): Parcelable
+) : Parcelable

@@ -9,10 +9,8 @@ import com.example.myfilms.data.ApiFactory
 import com.example.myfilms.data.model.DataBase
 import com.example.myfilms.data.model.Movie
 import com.example.myfilms.data.model.MovieDao
-import com.example.myfilms.data.model.Session
 import com.example.myfilms.presentation.Utils.LoadingState
 import com.example.myfilms.presentation.view.MainActivity
-import com.example.myfilms.presentation.view.MoviesFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,7 +22,6 @@ class ViewModelMovie(
     private val movieDao: MovieDao
 
     private val apiService = ApiFactory.getInstance()
-
 
     private val _movies = MutableLiveData<List<Movie>?>()
     val movies: LiveData<List<Movie>?>
@@ -38,31 +35,22 @@ class ViewModelMovie(
         movieDao = DataBase.getDataBase(context).movieDao()
     }
 
-    fun downloadData(page: Int) {
+    fun downloadData() {
 
         viewModelScope.launch {
+
             _loadingState.value = LoadingState.IS_LOADING
             val list = withContext(Dispatchers.IO) {
 
                 try {
-
-                    //_loadingState.value = LoadingState.IS_LOADING
-                    val response = apiService.getMovies(/*page = page*/)
+                    val response = apiService.getMovies()
                     if (response.isSuccessful && !MainActivity.isFirstDownloaded) {
 
-                        //_movies.value = response.body()?.movies as List<Movie>
                         MainActivity.isFirstDownloaded = true
-
                         val result = response.body()?.movies
-
-
                         if (!result.isNullOrEmpty()) {
                             movieDao.insertAll(result)
                         }
-
-//                        _loadingState.value = LoadingState.FINISHED
-//                        _loadingState.value = LoadingState.SUCCESS
-
                         result
                     } else {
                         movieDao.getAll()
@@ -74,13 +62,6 @@ class ViewModelMovie(
             _movies.value = list
             _loadingState.value = LoadingState.FINISHED
             _loadingState.value = LoadingState.SUCCESS
-
-        }
-    }
-
-    fun deleteSession(session: String) {
-        viewModelScope.launch {
-            apiService.deleteSession(sessionId = Session(session_id = session))
         }
     }
 }

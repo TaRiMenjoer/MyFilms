@@ -13,7 +13,7 @@ interface ApiService {
         @Query("sort_by") sort_by: String = SORT_BY_POPULARITY,
         @Query("vote_count.gte") vote_count: Int = MIN_VOTE_COUNT_VALUE,
         @Query("page") page: Int = PARAMS_PAGE
-    ):Response<Result>
+    ): Response<Result>
 
 
     @GET("authentication/token/new")
@@ -51,7 +51,6 @@ interface ApiService {
         @Query("session_id") session_id: String = SESSION_ID,
         @Query("language") language: String = PARAMS_LANGUAGE,
         @Query("sort_by") sort_by: String = SORT_BY_POPULARITY,
-//        @Query("page") page: Int = PARAMS_PAGE
     ): Response<Result>
 
     @HTTP(method = "DELETE", path = "authentication/session", hasBody = true)
@@ -60,12 +59,6 @@ interface ApiService {
         @Body sessionId: Session
     )
 
-    @GET("movie/{movie_id}/videos")
-    suspend fun getVideos(
-        @Path("movie_id") id: Int,
-        @Query("api_key") apiKey: String = API_KEY,
-        @Query("language") language: String = PARAMS_LANGUAGE
-    ): Response<MovieVideos>
 
     companion object {
 

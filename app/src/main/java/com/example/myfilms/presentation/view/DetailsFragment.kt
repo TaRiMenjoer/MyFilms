@@ -1,9 +1,7 @@
 package com.example.myfilms.presentation.view
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +27,7 @@ class DetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         prefSettings = context?.getSharedPreferences(
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
         ) as SharedPreferences
@@ -47,29 +46,22 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getSessionId()
-
         initViewModel()
-
-        getMovieById(movieId)
-
-        onTrailerClick()
-
-        setOnClickFavourites()
-
         setStar()
+        getMovieById(movieId)
+        setOnClickFavourites()
     }
 
     private fun setOnClickFavourites() {
-
         binding.ivAddFavorite.setOnClickListener {
-            viewModel.addOrRemoveFavourites(movieId , sessionId)
+            viewModel.addOrRemoveFavourites(movieId, sessionId)
         }
     }
 
-    private fun setStar(){
-        viewModel.movie.observe(viewLifecycleOwner){
+    private fun setStar() {
+        viewModel.movie.observe(viewLifecycleOwner) {
 
-            if (it.isLiked == true) {
+            if (it.isLiked) {
                 binding.ivAddFavorite.setImageResource(R.drawable.ic_star_yellow)
             } else {
                 binding.ivAddFavorite.setImageResource(R.drawable.ic_star_white)
@@ -88,16 +80,17 @@ class DetailsFragment : Fragment() {
 
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
 
+        viewModel = ViewModelProvider(
+            this,
+            viewModelProviderFactory
+        )[ViewModelDetails::class.java]
 
-        viewModel = ViewModelProvider(this, viewModelProviderFactory)[ViewModelDetails::class.java]
-
-        //  viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
         viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
     }
 
     private fun getMovieById(movieId: Int) {
 
-        viewModel.getMovieById(movieId)
+        viewModel.getMovieById(movieId, sessionId)
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
                 LoadingState.IS_LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -109,34 +102,10 @@ class DetailsFragment : Fragment() {
                         binding.tvTitle.text = it.title
                         binding.tvOverview.text = it.overview
                     }
-                    viewModel.videos.observe(viewLifecycleOwner) {
-                        it.list.map {
-                            binding.textViewNameOfVideo.text = it.name
-                        }
-                    }
                 }
                 else -> throw RuntimeException("Error")
             }
         }
-    }
-
-    private fun onTrailerClick() {
-
-        binding.clTrailer.setOnClickListener {
-            getTrailer()
-        }
-    }
-
-    private fun getTrailer() {
-        viewModel.videos.observe(viewLifecycleOwner) {
-            it.list.map {
-                key = it.key
-            }
-        }
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.data = Uri.parse(YOUTUBE_URL + key)
-        startActivity(intent)
     }
 
     private fun parseArgs() {
@@ -149,10 +118,7 @@ class DetailsFragment : Fragment() {
     companion object {
 
         private var movieId: Int = 0
-
         private var sessionId: String = ""
-        private var key: String = ""
-        private const val YOUTUBE_URL = "https://www.youtube.com/watch?v="
         private const val IMG_URL = "https://image.tmdb.org/t/p/w500"
         const val KEY_MOVIE = "Movie_id"
     }

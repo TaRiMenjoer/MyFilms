@@ -21,18 +21,15 @@ import com.example.myfilms.presentation.viewModel.ViewModelProviderFactory
 
 class FavouritesFragment : Fragment() {
 
-
     private var _binding: FragmentFavouritesBinding? = null
     private val binding: FragmentFavouritesBinding
         get() = _binding ?: throw RuntimeException("FavoritesFragment is null")
 
-
     private val adapter = MoviesAdapter()
+
     private lateinit var viewModel: ViewModelFavourites
 
-
     private lateinit var prefSettings: SharedPreferences
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,15 +43,15 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
-
         getSessionId()
-
         onMovieClickListener()
+        initViewModel(viewModelProviderFactory)
+        downloadData()
+        onBackPressed()
+    }
 
-        viewModel = ViewModelProvider(this , viewModelProviderFactory)[ViewModelFavourites::class.java]
-
-        viewModel.downloadData(MoviesFragment.PAGE , MoviesFragment.sessionId)
-
+    private fun downloadData() {
+        viewModel.downloadData(MoviesFragment.sessionId)
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
                 LoadingState.IS_LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -66,11 +63,21 @@ class FavouritesFragment : Fragment() {
                 else -> throw RuntimeException("Error")
             }
         }
-        onBackPressed()
     }
+
+    private fun initViewModel(viewModelProviderFactory: ViewModelProviderFactory) {
+        viewModel = ViewModelProvider(
+            this,
+            viewModelProviderFactory
+        )[ViewModelFavourites::class.java]
+    }
+
     private fun getSessionId() {
         try {
-            MoviesFragment.sessionId = prefSettings.getString(LoginFragment.SESSION_ID_KEY, null) as String
+            MoviesFragment.sessionId = prefSettings.getString(
+                LoginFragment.SESSION_ID_KEY,
+                null
+            ) as String
         } catch (e: Exception) {
         }
     }
@@ -90,22 +97,19 @@ class FavouritesFragment : Fragment() {
         }
         findNavController().navigate(R.id.action_favouritesFragment_to_detailsFragment, args)
     }
+
     private fun onBackPressed() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
 
-//                viewModel.deleteSession(sessionId)
-//                editor.clear().commit()
-//                findNavController().popBackStack(R.id.login_fragment , true)
-
                 requireContext().let {
                     AlertDialog
                         .Builder(it)
-                        .setMessage("Выйти?")
-                        .setPositiveButton("Да") { dialogInterface, i ->
+                        .setMessage(R.string.exit_app)
+                        .setPositiveButton(R.string.yes) { dialogInterface, i ->
                             requireActivity().finish()
                         }
-                        .setNegativeButton("Нет") { dialogInterface, i -> }
+                        .setNegativeButton(R.string.No) { dialogInterface, i -> }
                         .create()
                         .show()
                 }
