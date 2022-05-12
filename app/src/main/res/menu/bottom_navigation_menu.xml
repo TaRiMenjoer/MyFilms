@@ -12,7 +12,7 @@
     <item
         android:id="@+id/favorites_nav"
         android:enabled="true"
-        android:icon="@drawable/ic_menu"
+        android:icon="@android:drawable/btn_star_big_on"
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />
 </menu>

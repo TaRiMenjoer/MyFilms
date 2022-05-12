@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding: FragmentLoginBinding
-        get() = _binding ?: throw RuntimeException("FragmentLoginBinding is null")
+        get() = _binding ?: throw RuntimeException(getString(R.string.fragment_login_binding_is_null))
 
     private lateinit var viewModel: ViewModelLogin
 
@@ -82,7 +82,7 @@ class LoginFragment : Fragment() {
                 viewModel.login(data)
                 observeLoadingState()
             } else {
-                Toast.makeText(requireContext(), "Введите данные", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.add_data), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -103,7 +103,7 @@ class LoginFragment : Fragment() {
                         }
                     }
                 }
-                else -> Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                else -> Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -125,7 +125,6 @@ class LoginFragment : Fragment() {
     }
 
     companion object {
-
         private var sessionId: String = ""
         const val APP_SETTINGS = "Settings"
         const val SESSION_ID_KEY = "SESSION_ID"

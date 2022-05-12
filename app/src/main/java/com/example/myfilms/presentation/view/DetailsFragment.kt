@@ -103,7 +103,7 @@ class DetailsFragment : Fragment() {
                         binding.tvOverview.text = it.overview
                     }
                 }
-                else -> throw RuntimeException("Error")
+                else -> throw RuntimeException(getString(R.string.error))
             }
         }
     }

@@ -23,7 +23,7 @@ class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
     private val binding: FragmentMoviesBinding
-        get() = _binding ?: throw RuntimeException("FragmentFilmsBinding is null")
+        get() = _binding ?: throw RuntimeException(getString(R.string.fragment_films_binding_is_null))
 
     private val adapter = MoviesAdapter()
     private lateinit var viewModel: ViewModelMovie

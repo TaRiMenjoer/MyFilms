@@ -23,7 +23,7 @@ class FavouritesFragment : Fragment() {
 
     private var _binding: FragmentFavouritesBinding? = null
     private val binding: FragmentFavouritesBinding
-        get() = _binding ?: throw RuntimeException("FavoritesFragment is null")
+        get() = _binding ?: throw RuntimeException(getString(R.string.favourites_fragment_is_null))
 
     private val adapter = MoviesAdapter()
 
@@ -60,7 +60,7 @@ class FavouritesFragment : Fragment() {
                     adapter.submitList(it)
                     binding.rvFavouritesMovies.adapter = adapter
                 }
-                else -> throw RuntimeException("Error")
+                else -> throw RuntimeException(getString(R.string.error))
             }
         }
     }

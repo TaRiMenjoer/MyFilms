@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.myfilms.R
 import com.example.myfilms.data.ApiFactory
 import com.example.myfilms.data.model.LoginApprove
 import com.example.myfilms.data.model.Token
@@ -51,7 +52,7 @@ class ViewModelLogin(application: Application) : AndroidViewModel(application) {
                         _loadingState.value = LoadingState.FINISHED
                         Toast.makeText(
                             context,
-                            "Неверные данные",
+                            R.string.wrong_data,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -60,7 +61,7 @@ class ViewModelLogin(application: Application) : AndroidViewModel(application) {
                 _loadingState.value = LoadingState.FINISHED
                 Toast.makeText(
                     context,
-                    "Нет подключения к интернету",
+                    R.string.no_enternet_connection,
                     Toast.LENGTH_SHORT
                 ).show()
             }

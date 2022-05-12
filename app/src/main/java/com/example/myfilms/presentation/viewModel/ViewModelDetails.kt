@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myfilms.R
 import com.example.myfilms.data.ApiFactory
 import com.example.myfilms.data.model.*
 import com.example.myfilms.presentation.Utils.LoadingState
@@ -84,7 +85,7 @@ class ViewModelDetails(
             } catch (e: Exception) {
                 Toast.makeText(
                     context,
-                    "Нет подключение к интернету",
+                    R.string.no_enternet_connection,
                     Toast.LENGTH_SHORT
                 ).show()
             }

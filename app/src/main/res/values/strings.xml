@@ -30,4 +30,11 @@
     <string name="wrong_id">Wrong id</string>
     <string name="error">Error</string>
     <string name="exit_app">Выйти?</string>
+    <string name="add_data">Введите данные</string>
+    <string name="wrong_data">Неверные данные</string>
+    <string name="no_enternet_connection">Нет подключения к интернету</string>
+    <string name="cannot_dawnload_favourite">Can\'t download Favourites</string>
+    <string name="favourites_fragment_is_null">FavoritesFragment is null</string>
+    <string name="fragment_login_binding_is_null">FragmentLoginBinding is null</string>
+    <string name="fragment_films_binding_is_null">FragmentFilmsBinding is null</string>
 </resources>

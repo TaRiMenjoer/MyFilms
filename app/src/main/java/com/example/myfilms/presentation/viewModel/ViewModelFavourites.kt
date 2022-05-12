@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myfilms.R
 import com.example.myfilms.data.ApiFactory
 import com.example.myfilms.data.model.DataBase
 import com.example.myfilms.data.model.Movie
@@ -49,7 +50,7 @@ class ViewModelFavourites(
                         val result = response.body()?.movies
                         result
                     } else {
-                        throw Exception("Can download Favourites")
+                        throw Exception(context.getString(R.string.cannot_dawnload_favourite))
                     }
                 } catch (e: Exception) {
                     movieDao.getFavouriteMovies()
