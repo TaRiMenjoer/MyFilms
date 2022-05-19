@@ -59,6 +59,12 @@ interface ApiService {
         @Body sessionId: Session
     )
 
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("session_id") session_id: String = SESSION_ID
+    ): Response<AccountDetails>
+
 
     companion object {
 

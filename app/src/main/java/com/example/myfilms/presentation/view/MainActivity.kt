@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.movies_nav,
                 R.id.favorites_nav,
-                R.id.settings,
+                R.id.settings_nav,
                 R.id.about,
                 R.id.login_nav,
                 R.id.share,
@@ -138,8 +138,12 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.favorites_nav)
                     }
                 }
-                R.id.settings -> {
-
+                R.id.settings_nav -> {
+                    val current = findCurrentFragmentId()
+                    if (current != R.id.settingsFragment) {
+                       // navController.popBackStack(R.id.loginFragment, false)
+                        navController.navigate(R.id.settings_nav)
+                    }
                 }
                 R.id.about -> {
 

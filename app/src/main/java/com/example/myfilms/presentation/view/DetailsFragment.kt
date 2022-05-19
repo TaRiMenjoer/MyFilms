@@ -78,7 +78,7 @@ class DetailsFragment : Fragment() {
 
     private fun initViewModel() {
 
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
 
         viewModel = ViewModelProvider(
             this,

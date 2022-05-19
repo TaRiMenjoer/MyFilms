@@ -42,7 +42,7 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity())
+        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
         getSessionId()
         onMovieClickListener()
         initViewModel(viewModelProviderFactory)
