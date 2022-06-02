@@ -6,7 +6,7 @@
     app:startDestination="@id/favouritesFragment">
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="com.example.myfilms.presentation.view.FavouritesFragment"
+        android:name="com.example.myfilms.presentation.movieFavourites.FavouritesFragment"
         android:label="Избранные фильмы "
         tools:layout="@layout/fragment_favourites">
         <action
@@ -15,6 +15,6 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.myfilms.presentation.view.DetailsFragment"
+        android:name="com.example.myfilms.presentation.movieDetails.DetailsFragment"
         tools:layout="@layout/fragment_details" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.viewModel
+package com.example.myfilms.presentation.movieDetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,16 +6,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myfilms.data.model.Movie
-import com.example.myfilms.data.repository.MovieRepository
-import com.example.myfilms.presentation.Utils.LoadingState
+import com.example.myfilms.domain.UseCases.AddOrRemoveFavouritesUseCase
+import com.example.myfilms.domain.UseCases.GetMovieByIdUseCase
+import com.example.myfilms.domain.UseCases.PostFavouriteMoviesUseCase
+import com.example.myfilms.presentation.common.Utils.LoadingState
 import kotlinx.coroutines.launch
 
 class ViewModelDetails(
-    application: Application
+    application: Application  ,private val getMovieByIdUseCase: GetMovieByIdUseCase,
+    private val addOrRemoveFavouritesUseCase: AddOrRemoveFavouritesUseCase,
+    private val postFavouriteMoviesUseCase: PostFavouriteMoviesUseCase
 ) : AndroidViewModel(application) {
 
-
-    private val repository = MovieRepository(application)
 
     var context = application
 
@@ -28,12 +30,13 @@ class ViewModelDetails(
         get() = _loadingState
 
 
+
     fun getMovieById(movieId: Int, session_id: String) {
 
         _loadingState.value = LoadingState.IS_LOADING
 
         viewModelScope.launch {
-            _movie.value = repository.getMovieById(movieId , session_id)
+            _movie.value = getMovieByIdUseCase.invoke(movieId , session_id)
         }
         _loadingState.value = LoadingState.FINISHED
         _loadingState.value = LoadingState.SUCCESS
@@ -43,10 +46,10 @@ class ViewModelDetails(
         _loadingState.value = LoadingState.IS_LOADING
         viewModelScope.launch {
 
-            val movie = repository.addOrRemoveFavourites(movieId , session)
+            val movie = addOrRemoveFavouritesUseCase.invoke(movieId , session)
             _movie.value = movie
 
-            repository.postFavouriteMovie(movieId , session , movie )
+            postFavouriteMoviesUseCase.invoke(movieId , session , movie)
 
             _loadingState.value = LoadingState.FINISHED
             _loadingState.value = LoadingState.SUCCESS

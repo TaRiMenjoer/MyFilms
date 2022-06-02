@@ -1,25 +1,21 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.login
 
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
 import com.example.myfilms.data.model.LoginApprove
 import com.example.myfilms.databinding.FragmentLoginBinding
-import com.example.myfilms.presentation.Utils.LoadingState
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
-import com.example.myfilms.presentation.viewModel.ViewModelLogin
-import java.lang.Exception
-import java.lang.RuntimeException
+import com.example.myfilms.presentation.common.Utils.LoadingState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
 
@@ -27,8 +23,7 @@ class LoginFragment : Fragment() {
     private val binding: FragmentLoginBinding
         get() = _binding ?: throw RuntimeException(getString(R.string.fragment_login_binding_is_null))
 
-    private lateinit var viewModel: ViewModelLogin
-
+    private val viewModel by viewModel<ViewModelLogin>()
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
@@ -56,16 +51,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
         onLoginClick()
-    }
-
-    private fun initViewModel() {
-        viewModel =
-            ViewModelProvider(
-                this,
-                AndroidViewModelFactory.getInstance(requireActivity().application)
-            )[ViewModelLogin::class.java]
     }
 
     private fun onLoginClick() {

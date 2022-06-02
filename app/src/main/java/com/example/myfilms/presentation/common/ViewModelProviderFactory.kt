@@ -1,8 +1,6 @@
-package com.example.myfilms.presentation.viewModel
+package com.example.myfilms.presentation.common
 
 import android.app.Application
-import android.content.Context
-import android.media.AsyncPlayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 

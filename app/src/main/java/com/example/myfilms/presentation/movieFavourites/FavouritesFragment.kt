@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.movieFavourites
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
 import com.example.myfilms.data.model.Movie
 import com.example.myfilms.databinding.FragmentFavouritesBinding
-import com.example.myfilms.presentation.Utils.LoadingState
-import com.example.myfilms.presentation.view.adapter.MoviesAdapter
-import com.example.myfilms.presentation.viewModel.ViewModelFavourites
-import com.example.myfilms.presentation.viewModel.ViewModelProviderFactory
+import com.example.myfilms.presentation.common.Utils.LoadingState
+import com.example.myfilms.presentation.movieDetails.DetailsFragment
+import com.example.myfilms.presentation.login.LoginFragment
+import com.example.myfilms.presentation.movies.MoviesFragment
+import com.example.myfilms.presentation.common.adapter.MoviesAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FavouritesFragment : Fragment() {
@@ -27,7 +28,8 @@ class FavouritesFragment : Fragment() {
 
     private val adapter = MoviesAdapter()
 
-    private lateinit var viewModel: ViewModelFavourites
+
+    private val viewModel by viewModel<ViewModelFavourites>()
 
     private lateinit var prefSettings: SharedPreferences
 
@@ -42,10 +44,10 @@ class FavouritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
+        //val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
         getSessionId()
         onMovieClickListener()
-        initViewModel(viewModelProviderFactory)
+
         downloadData()
         onBackPressed()
     }
@@ -65,12 +67,6 @@ class FavouritesFragment : Fragment() {
         }
     }
 
-    private fun initViewModel(viewModelProviderFactory: ViewModelProviderFactory) {
-        viewModel = ViewModelProvider(
-            this,
-            viewModelProviderFactory
-        )[ViewModelFavourites::class.java]
-    }
 
     private fun getSessionId() {
         try {

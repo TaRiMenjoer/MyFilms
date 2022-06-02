@@ -1,49 +1,43 @@
 package com.example.myfilms.data.repository
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.widget.Toast
 import com.example.myfilms.R
-import com.example.myfilms.data.ApiFactory
+import com.example.myfilms.data.ApiService
 import com.example.myfilms.data.model.*
-import com.example.myfilms.presentation.Utils.LoadingState
-import com.example.myfilms.presentation.view.MainActivity
-import com.example.myfilms.presentation.viewModel.MainViewModel
+import com.example.myfilms.domain.MovieRepository.MovieRepository
+import com.example.myfilms.presentation.main.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class MovieRepository(application: Application) {
+class MovieRepositoryImpl(val  application: Application, private val apiService: ApiService,
+                          private val movieDao: MovieDao, private val prefSettings: SharedPreferences) :
+    MovieRepository {
 
 
-    private val movieDao: MovieDao = DataBase.getDataBase(application).movieDao()
-    private val apiService = ApiFactory.getInstance()
     var context = application
 
-    private var prefSettings: SharedPreferences = application.getSharedPreferences(
-        APP_SETTINGS,
-        Context.MODE_PRIVATE
-    ) as SharedPreferences
-    private var editor: SharedPreferences.Editor = prefSettings.edit()
-
-
-    suspend fun downloadData(): List<Movie>? {
+    override suspend fun downloadData(): List<Movie>? {
 
         return withContext(Dispatchers.Default) {
 
             try {
                 val response = apiService.getMovies()
 
-                if (response.isSuccessful && !MainActivity.isFirstDownloaded) {
-                    MainActivity.isFirstDownloaded = true
+                if (response.isSuccessful && !isFirstDownloaded) {
+                    isFirstDownloaded = true
+
                     val result = response.body()?.movies
                     if (!result.isNullOrEmpty()) {
                         movieDao.insertAll(result)
                     }
                     result
                 } else {
+
                     movieDao.getAll()
+
                 }
             } catch (e: Exception) {
                 movieDao.getAll()
@@ -54,7 +48,7 @@ class MovieRepository(application: Application) {
 
     }
 
-    suspend fun getMovieById(movieId: Int, session_id: String): Movie {
+    override suspend fun getMovieById(movieId: Int, session_id: String): Movie {
         return withContext(Dispatchers.Default) {
 
             try {
@@ -72,7 +66,7 @@ class MovieRepository(application: Application) {
         }
     }
 
-    suspend fun addOrRemoveFavourites(movieId: Int, session: String): Movie {
+    override suspend fun addOrRemoveFavourites(movieId: Int, session: String): Movie {
         return withContext(Dispatchers.Default) {
             val movie = movieDao.getMovieById(movieId)
             val changedMovie = movie.copy(isLiked = !movie.isLiked)
@@ -81,7 +75,7 @@ class MovieRepository(application: Application) {
         }
     }
 
-    suspend fun postFavouriteMovie(movieId: Int, session: String, movieFavourite: Movie) {
+    override suspend fun postFavouriteMovie(movieId: Int, session: String, movieFavourite: Movie) {
         withContext(Dispatchers.Default) {
             try {
                 val isLiked = movieFavourite.isLiked
@@ -97,7 +91,7 @@ class MovieRepository(application: Application) {
         }
     }
 
-    suspend fun downloadFavouritesData(session: String): List<Movie>? {
+    override suspend fun downloadFavouritesData(session: String): List<Movie>? {
         return withContext(Dispatchers.Default) {
             try {
                 val response = apiService.getFavorites(session_id = session)
@@ -115,7 +109,7 @@ class MovieRepository(application: Application) {
 
     }
 
-    suspend fun getResponseSession(data: LoginApprove): Response<Session> {
+    override suspend fun getResponseSession(data: LoginApprove): Response<Session> {
 
         try {
             val responseGet = apiService.getToken()
@@ -139,13 +133,13 @@ class MovieRepository(application: Application) {
     }
 
 
-    suspend fun deleteSession() {
+    override suspend fun deleteSession() {
         withContext(Dispatchers.Default) {
             SESSION_ID = getSessionId()
             try {
                 apiService.deleteSession(sessionId = Session(session_id = SESSION_ID))
             } catch (e: Exception) {
-                editor.clear().commit()
+
             }
         }
     }
@@ -165,6 +159,10 @@ class MovieRepository(application: Application) {
         private var SESSION_ID = ""
         const val APP_SETTINGS = "Settings"
         const val SESSION_ID_KEY = "SESSION_ID"
+        var isFirstDownloaded = false
     }
+
+
+
 
 }

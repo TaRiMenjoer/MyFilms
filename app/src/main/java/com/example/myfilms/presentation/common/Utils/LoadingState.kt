@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.Utils
+package com.example.myfilms.presentation.common.Utils
 
 
 enum class LoadingState {

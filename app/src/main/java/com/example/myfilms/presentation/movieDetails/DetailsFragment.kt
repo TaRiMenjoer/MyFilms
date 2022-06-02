@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.movieDetails
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,21 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.myfilms.R
 import com.example.myfilms.databinding.FragmentDetailsBinding
-import com.example.myfilms.presentation.Utils.LoadingState
-import com.example.myfilms.presentation.viewModel.ViewModelDetails
-import com.example.myfilms.presentation.viewModel.ViewModelProviderFactory
+import com.example.myfilms.presentation.common.Utils.LoadingState
+import com.example.myfilms.presentation.login.LoginFragment
 import com.squareup.picasso.Picasso
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding: FragmentDetailsBinding
         get() = _binding ?: throw RuntimeException("DetailsFragment is null")
+    
 
-    private lateinit var viewModel: ViewModelDetails
+    private val viewModel by viewModel<ViewModelDetails>()
 
     private lateinit var prefSettings: SharedPreferences
 
@@ -46,7 +46,6 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getSessionId()
-        initViewModel()
         setStar()
         getMovieById(movieId)
         setOnClickFavourites()
@@ -76,17 +75,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun initViewModel() {
-
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
-
-        viewModel = ViewModelProvider(
-            this,
-            viewModelProviderFactory
-        )[ViewModelDetails::class.java]
-
-        viewModel = ViewModelProvider(this)[ViewModelDetails::class.java]
-    }
 
     private fun getMovieById(movieId: Int) {
 

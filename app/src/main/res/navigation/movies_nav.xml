@@ -6,7 +6,7 @@
     app:startDestination="@id/movies_fragment">
     <fragment
         android:id="@+id/movies_fragment"
-        android:name="com.example.myfilms.presentation.view.MoviesFragment"
+        android:name="com.example.myfilms.presentation.movies.MoviesFragment"
         android:label="Мои фильмы"
         tools:layout="@layout/fragment_movies">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/details_fragment"
-        android:name="com.example.myfilms.presentation.view.DetailsFragment"
+        android:name="com.example.myfilms.presentation.movieDetails.DetailsFragment"
         tools:layout="@layout/fragment_details">
         <action
             android:id="@+id/action_details_fragment_to_favouritexFragment"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
-        android:name="com.example.myfilms.presentation.view.FavouritesFragment"
+        android:name="com.example.myfilms.presentation.movieFavourites.FavouritesFragment"
         android:label="Избранные фильмы"
         tools:layout="@layout/fragment_favourites" />
 </navigation>

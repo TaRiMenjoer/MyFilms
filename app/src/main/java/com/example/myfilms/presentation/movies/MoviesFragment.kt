@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.movies
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,15 +9,16 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
 import com.example.myfilms.data.model.Movie
+import com.example.myfilms.data.repository.MovieRepositoryImpl
 import com.example.myfilms.databinding.FragmentMoviesBinding
-import com.example.myfilms.presentation.Utils.LoadingState
-import com.example.myfilms.presentation.view.adapter.MoviesAdapter
-import com.example.myfilms.presentation.viewModel.ViewModelMovie
-import com.example.myfilms.presentation.viewModel.ViewModelProviderFactory
+import com.example.myfilms.presentation.common.Utils.LoadingState
+import com.example.myfilms.presentation.common.adapter.MoviesAdapter
+import com.example.myfilms.presentation.login.LoginFragment
+import com.example.myfilms.presentation.movieDetails.DetailsFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
@@ -26,7 +27,8 @@ class MoviesFragment : Fragment() {
         get() = _binding ?: throw RuntimeException(getString(R.string.fragment_films_binding_is_null))
 
     private val adapter = MoviesAdapter()
-    private lateinit var viewModel: ViewModelMovie
+
+    private val viewModel by viewModel<ViewModelMovie>()
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
@@ -55,29 +57,44 @@ class MoviesFragment : Fragment() {
         initAndObserveViewModel()
         onMovieClickListener()
         onBackPressed()
+        setSwipeRefresh()
+    }
+
+    private fun setSwipeRefresh(){
+        binding.swipeRefresh.setOnRefreshListener {
+
+            MovieRepositoryImpl.isFirstDownloaded = false
+
+            viewModel.refreshingData()
+
+            viewModel.refreshingState.observe(viewLifecycleOwner) {
+                when (it) {
+                    LoadingState.IS_LOADING -> binding.swipeRefresh.isRefreshing = true
+                    LoadingState.FINISHED -> binding.swipeRefresh.isRefreshing = false
+                    else -> throw RuntimeException(getString(R.string.error))
+                }
+            }
+        }
+
     }
 
     private fun initAndObserveViewModel() {
 
-        val viewModelProviderFactory = ViewModelProviderFactory(requireActivity().application)
-
-        viewModel = ViewModelProvider(
-            this,
-            viewModelProviderFactory
-        )[ViewModelMovie::class.java]
-
         viewModel.downloadData()
 
         viewModel.loadingState.observe(viewLifecycleOwner) {
-            when (it) {
-                LoadingState.IS_LOADING -> binding.progressBar.visibility = View.VISIBLE
-                LoadingState.FINISHED -> binding.progressBar.visibility = View.GONE
-                LoadingState.SUCCESS -> viewModel.movies.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                    binding.rvMovies.adapter = adapter
+
+                when (it) {
+                    LoadingState.IS_LOADING -> binding.progressBar.visibility = View.VISIBLE
+                    LoadingState.FINISHED -> binding.progressBar.visibility = View.GONE
+                    else -> throw RuntimeException(getString(R.string.error))
                 }
-                else -> throw RuntimeException(getString(R.string.error))
-            }
+
+        }
+
+        viewModel.movies.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+            binding.rvMovies.adapter = adapter
         }
     }
 

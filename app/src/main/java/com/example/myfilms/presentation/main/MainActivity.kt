@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.main
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,6 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,18 +15,18 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myfilms.R
 import com.example.myfilms.databinding.ActivityMainBinding
-import com.example.myfilms.presentation.viewModel.MainViewModel
+import com.example.myfilms.presentation.login.LoginFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
     private lateinit var navController: NavController
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var toolbarLayout: AppBarLayout
@@ -38,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefSettings: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
+
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,10 +87,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
 
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-        )[MainViewModel::class.java]
 
         navController = findNavController(R.id.main_container)
         bottomNavigation = findViewById(R.id.bottom_navigation)

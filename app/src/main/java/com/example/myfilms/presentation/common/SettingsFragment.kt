@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.view
+package com.example.myfilms.presentation.common
 
 import android.Manifest
 import android.content.Intent
@@ -26,7 +26,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSettingsBinding.bind(view)
-      //  Picasso.get().load(R.)
+        Picasso.get().load(R.drawable.bully)
 
         binding.btnCamera.setOnClickListener {
             checkCameraPermissions()

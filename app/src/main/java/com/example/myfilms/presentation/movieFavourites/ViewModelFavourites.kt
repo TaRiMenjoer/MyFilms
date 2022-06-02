@@ -1,4 +1,4 @@
-package com.example.myfilms.presentation.viewModel
+package com.example.myfilms.presentation.movieFavourites
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,16 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myfilms.data.model.Movie
-import com.example.myfilms.data.repository.MovieRepository
-import com.example.myfilms.presentation.Utils.LoadingState
+import com.example.myfilms.domain.UseCases.DownloadFavouritesDataUseCase
+import com.example.myfilms.presentation.common.Utils.LoadingState
 import kotlinx.coroutines.launch
 
 class ViewModelFavourites(
-    application: Application
+    application: Application , private val downloadFavouritesDataUseCase: DownloadFavouritesDataUseCase
 ) : AndroidViewModel(application) {
-
-
-    private val repository = MovieRepository(application)
 
 
     private val _movies = MutableLiveData<List<Movie>?>()
@@ -32,7 +29,7 @@ class ViewModelFavourites(
         viewModelScope.launch {
 
             _loadingState.value = LoadingState.IS_LOADING
-            _movies.value = repository.downloadFavouritesData(session)
+            _movies.value = downloadFavouritesDataUseCase.invoke(session)
             _loadingState.value = LoadingState.FINISHED
             _loadingState.value = LoadingState.SUCCESS
         }
