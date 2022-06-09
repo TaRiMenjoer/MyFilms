@@ -15,4 +15,12 @@
         android:icon="@android:drawable/btn_star_big_on"
         android:title="@string/favorites"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/google_map_nav"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/map"
+        app:showAsAction="ifRoom" />
+
 </menu>

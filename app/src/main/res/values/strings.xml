@@ -37,4 +37,5 @@
     <string name="favourites_fragment_is_null">FavoritesFragment is null</string>
     <string name="fragment_login_binding_is_null">FragmentLoginBinding is null</string>
     <string name="fragment_films_binding_is_null">FragmentFilmsBinding is null</string>
+    <string name="map">карта</string>
 </resources>

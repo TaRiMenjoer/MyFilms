@@ -15,4 +15,5 @@
             app:destination="@id/movies_nav" />
     </fragment>
     <include app:graph="@navigation/settings_nav" />
+    <include app:graph="@navigation/google_map_nav" />
 </navigation>

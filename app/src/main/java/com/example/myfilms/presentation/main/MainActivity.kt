@@ -21,6 +21,9 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -40,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainViewModel>()
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,6 +60,8 @@ class MainActivity : AppCompatActivity() {
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
         ) as SharedPreferences
         editor = prefSettings.edit()
+
+        firebaseAnalytics = Firebase.analytics
     }
 
     private fun setVisibility() {
@@ -201,6 +208,11 @@ class MainActivity : AppCompatActivity() {
                         navController.popBackStack(R.id.loginFragment, false)
                         navController.navigate(R.id.favorites_nav)
                     }
+                }
+                R.id.google_map_nav -> {
+                    navController.popBackStack(R.id.loginFragment, false)
+                    navController.navigate(R.id.google_map_nav)
+
                 }
             }
             return@setOnItemSelectedListener true
