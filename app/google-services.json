@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "630429488914",
+    "project_id": "fir-firstapp-c325a",
+    "storage_bucket": "fir-firstapp-c325a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630429488914:android:e10afee61369af785a05cb",
+        "android_client_info": {
+          "package_name": "com.example.myfilms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630429488914-m44spmgs5iulkbccvqtht0nb86djo6l8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK-kjSCw6r1kdwd_oaJcQH9VBnP7hNNLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630429488914-m44spmgs5iulkbccvqtht0nb86djo6l8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

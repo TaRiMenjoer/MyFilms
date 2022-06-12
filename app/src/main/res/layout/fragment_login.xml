@@ -16,38 +16,80 @@
 
 
 
-    <EditText
-        android:id="@+id/et_username"
-        android:layout_width="@dimen/_0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="248dp"
-        android:autofillHints="@string/prompt_email"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/til_password"
+        app:layout_constraintVertical_chainStyle="packed">
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="@dimen/_0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите логин:"
+            android:inputType="textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_password"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:autofillHints="@string/prompt_password"
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username" />
+        app:layout_constraintTop_toBottomOf="@+id/til_name"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Введите пароль:"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--    <EditText-->
+<!--        android:id="@+id/et_username"-->
+<!--        android:layout_width="@dimen/_0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="248dp"-->
+<!--        android:autofillHints="@string/prompt_email"-->
+<!--        android:hint="@string/prompt_email"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:selectAllOnFocus="true"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/et_password"-->
+<!--        android:layout_width="@dimen/_0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:autofillHints="@string/prompt_password"-->
+<!--        android:hint="@string/prompt_password"-->
+<!--        android:imeActionLabel="@string/action_sign_in_short"-->
+<!--        android:imeOptions="actionDone"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:selectAllOnFocus="true"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/et_username" />-->
 
     <Button
         android:id="@+id/btnLogin"
@@ -84,7 +126,7 @@
         android:layout_width="411dp"
         android:layout_height="268dp"
         android:src="@mipmap/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/et_username"
+        app:layout_constraintBottom_toTopOf="@+id/til_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

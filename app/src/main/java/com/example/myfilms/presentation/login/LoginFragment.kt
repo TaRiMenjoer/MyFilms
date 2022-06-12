@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding: FragmentLoginBinding
-        get() = _binding ?: throw RuntimeException(getString(R.string.fragment_login_binding_is_null))
+        get() = _binding
+            ?: throw RuntimeException(getString(R.string.fragment_login_binding_is_null))
 
     private val viewModel by viewModel<ViewModelLogin>()
     private lateinit var prefSettings: SharedPreferences
@@ -51,28 +54,100 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeViewModel()
+        addTextChangeListeners()
         onLoginClick()
     }
 
+    //    private fun onLoginClick() {
+//        binding.btnLogin.setOnClickListener {
+//            hideKeyboard(requireActivity())
+//
+//            if (!binding.etUsername.text.isNullOrBlank()
+//                && !binding.etPassword.text.isNullOrBlank()
+//            ) {
+//                val data = LoginApprove(
+//                    username = binding.etUsername.text.toString().trim(),
+//                    password = binding.etPassword.text.toString().trim(),
+//                    request_token = ""
+//                )
+//                viewModel.login(data)
+//                observeLoadingState()
+//            } else {
+//                Toast.makeText(requireContext(), getString(R.string.add_data), Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//    }
     private fun onLoginClick() {
         binding.btnLogin.setOnClickListener {
             hideKeyboard(requireActivity())
-            if (!binding.etUsername.text.isNullOrBlank()
-                && !binding.etPassword.text.isNullOrBlank()
-            ) {
-                val data = LoginApprove(
-                    username = binding.etUsername.text.toString().trim(),
-                    password = binding.etPassword.text.toString().trim(),
-                    request_token = ""
-                )
-                viewModel.login(data)
-                observeLoadingState()
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.add_data), Toast.LENGTH_SHORT).show()
-            }
+
+
+            viewModel.resetErrorInputPassword()
+            viewModel.resetErrorInputUserName()
+
+            val userName = binding.etUsername.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+
+            val data = LoginApprove(
+                username = userName,
+                password = password,
+                request_token = ""
+
+            )
+            viewModel.login(data, userName, password)
+            observeLoadingState()
+
         }
 
     }
+
+    private fun observeViewModel() {
+        viewModel.errorInputCount.observe(viewLifecycleOwner) {
+            val message = if (it) {
+                "Неверные данные"
+            } else {
+                null
+            }
+            binding.tilPassword.error = message
+        }
+        viewModel.errorInputName.observe(viewLifecycleOwner) {
+            val message = if (it) {
+                "Неверные данные"
+            } else {
+                null
+            }
+            binding.tilName.error = message
+        }
+
+    }
+
+    private fun addTextChangeListeners() {
+        binding.etUsername.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.resetErrorInputUserName()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+        binding.etPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.resetErrorInputPassword()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+    }
+
 
     private fun observeLoadingState() {
         viewModel.loadingState.observe(viewLifecycleOwner) {

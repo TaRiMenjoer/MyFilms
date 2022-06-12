@@ -25,36 +25,80 @@ class ViewModelLogin(application: Application ,
     val sessionId: LiveData<String>
         get() = _sessionId
 
-    fun login(data: LoginApprove) {
+    private val _errorInputName = MutableLiveData<Boolean>()
+    val errorInputName: LiveData<Boolean>
+        get() = _errorInputName
+
+    private val _errorInputCount = MutableLiveData<Boolean>()
+    val errorInputCount: LiveData<Boolean>
+        get() = _errorInputCount
+
+
+    fun login(data: LoginApprove , userName: String , password: String) {
         viewModelScope.launch {
             try {
-                _loadingState.value = LoadingState.IS_LOADING
 
-                val session = getResponseSessionUseCase.invoke(data)
-                if (session.isSuccessful) {
-                    _sessionId.value = session.body()?.session_id
-                    _loadingState.value = LoadingState.FINISHED
-                    _loadingState.value = LoadingState.SUCCESS
-                } else {
-                    _loadingState.value = LoadingState.FINISHED
-                    Toast.makeText(
-                        context,
-                        R.string.wrong_data,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                val result = validateInput(userName , password)
+                if(result) {
+                    _loadingState.value = LoadingState.IS_LOADING
+                    val session = getResponseSessionUseCase.invoke(data)
+                    if (session.isSuccessful) {
+                        _sessionId.value = session.body()?.session_id
+                        _loadingState.value = LoadingState.FINISHED
+                        _loadingState.value = LoadingState.SUCCESS
+                    } else {
+                        _loadingState.value = LoadingState.FINISHED
+//                    Toast.makeText(
+//                        context,
+//                        R.string.wrong_data,
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+                        _errorInputName.value = true
+                        _errorInputCount.value = true
+                    }
+                } else{
+                    _errorInputName.value = true
+                    _errorInputCount.value = true
                 }
 
             } catch (e: Exception) {
                 _loadingState.value = LoadingState.FINISHED
-                Toast.makeText(
-                    context,
-                    R.string.no_enternet_connection,
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    context,
+//                    R.string.no_enternet_connection,
+//                    Toast.LENGTH_SHORT
+//                ).show()
+                _errorInputName.value = true
+                _errorInputCount.value = true
             }
         }
 
     }
+
+
+    private fun validateInput(userName: String, password: String): Boolean {
+        var result = true
+        if (userName.isBlank()) {
+            _errorInputName.value = true
+            result = false
+        }
+        if (password.isBlank()) {
+            _errorInputCount.value = true
+            result = false
+        }
+        return result
+    }
+
+    fun resetErrorInputUserName() {
+        _errorInputName.value = false
+    }
+
+    fun resetErrorInputPassword() {
+        _errorInputCount.value = false
+    }
+
+
+
 }
 
 
