@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
 import com.example.myfilms.databinding.FragmentDetailsBinding
 import com.example.myfilms.presentation.common.Utils.LoadingState
@@ -49,6 +50,12 @@ class DetailsFragment : Fragment() {
         setStar()
         getMovieById(movieId)
         setOnClickFavourites()
+        setBackListener()
+    }
+    private fun setBackListener(){
+        binding.back.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setOnClickFavourites() {

@@ -48,11 +48,7 @@ class ViewModelLogin(application: Application ,
                         _loadingState.value = LoadingState.SUCCESS
                     } else {
                         _loadingState.value = LoadingState.FINISHED
-//                    Toast.makeText(
-//                        context,
-//                        R.string.wrong_data,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+
                         _errorInputName.value = true
                         _errorInputCount.value = true
                     }
@@ -63,11 +59,6 @@ class ViewModelLogin(application: Application ,
 
             } catch (e: Exception) {
                 _loadingState.value = LoadingState.FINISHED
-//                Toast.makeText(
-//                    context,
-//                    R.string.no_enternet_connection,
-//                    Toast.LENGTH_SHORT
-//                ).show()
                 _errorInputName.value = true
                 _errorInputCount.value = true
             }

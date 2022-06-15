@@ -59,26 +59,7 @@ class LoginFragment : Fragment() {
         onLoginClick()
     }
 
-    //    private fun onLoginClick() {
-//        binding.btnLogin.setOnClickListener {
-//            hideKeyboard(requireActivity())
-//
-//            if (!binding.etUsername.text.isNullOrBlank()
-//                && !binding.etPassword.text.isNullOrBlank()
-//            ) {
-//                val data = LoginApprove(
-//                    username = binding.etUsername.text.toString().trim(),
-//                    password = binding.etPassword.text.toString().trim(),
-//                    request_token = ""
-//                )
-//                viewModel.login(data)
-//                observeLoadingState()
-//            } else {
-//                Toast.makeText(requireContext(), getString(R.string.add_data), Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//    }
+
     private fun onLoginClick() {
         binding.btnLogin.setOnClickListener {
             hideKeyboard(requireActivity())
