@@ -3,6 +3,7 @@ package com.example.myfilms.presentation.movieDetails
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.myfilms.R
 import com.example.myfilms.databinding.FragmentDetailsBinding
+import com.example.myfilms.domain.MovieRepository.MovieRepository
 import com.example.myfilms.presentation.common.Utils.LoadingState
+import com.example.myfilms.presentation.common.adapter.CastAdapter.CastAdapter
+import com.example.myfilms.presentation.common.adapter.MoviesAdapter
 import com.example.myfilms.presentation.login.LoginFragment
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,8 +30,11 @@ class DetailsFragment : Fragment() {
 
     private lateinit var prefSettings: SharedPreferences
 
+    private val adapter = CastAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         prefSettings = context?.getSharedPreferences(
             LoginFragment.APP_SETTINGS, Context.MODE_PRIVATE
@@ -48,9 +55,11 @@ class DetailsFragment : Fragment() {
 
         getSessionId()
         setStar()
+        observeActors()
         getMovieById(movieId)
         setOnClickFavourites()
         setBackListener()
+
     }
     private fun setBackListener(){
         binding.back.setOnClickListener {
@@ -86,6 +95,9 @@ class DetailsFragment : Fragment() {
     private fun getMovieById(movieId: Int) {
 
         viewModel.getMovieById(movieId, sessionId)
+
+        viewModel.getCreditResponse(movieId)
+
         viewModel.loadingState.observe(viewLifecycleOwner) {
             when (it) {
                 LoadingState.IS_LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -96,12 +108,22 @@ class DetailsFragment : Fragment() {
                             .into(binding.ivPoster)
                         binding.tvTitle.text = it.title
                         binding.tvOverview.text = it.overview
+                        binding.tvRating.text = it.voteAverage.toString()
                     }
                 }
                 else -> throw RuntimeException(getString(R.string.error))
             }
         }
     }
+
+    private fun observeActors(){
+        viewModel.actors.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+            binding.rvMainActors.adapter = adapter
+
+        }
+    }
+
 
     private fun parseArgs() {
 

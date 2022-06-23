@@ -48,6 +48,14 @@ class MovieRepositoryImpl(val  application: Application, private val apiService:
 
     }
 
+    override suspend fun getCreditResponse(movieId: Int): Response<CreditResponse> {
+        return withContext(Dispatchers.IO){
+
+               apiService.getCredits(movieId)
+
+        }
+    }
+
     override suspend fun getMovieById(movieId: Int, session_id: String): Movie {
         return withContext(Dispatchers.Default) {
 
@@ -65,6 +73,8 @@ class MovieRepositoryImpl(val  application: Application, private val apiService:
             }
         }
     }
+
+
 
     override suspend fun addOrRemoveFavourites(movieId: Int, session: String): Movie {
         return withContext(Dispatchers.Default) {
@@ -153,6 +163,7 @@ class MovieRepositoryImpl(val  application: Application, private val apiService:
         }
         return session
     }
+
 
     companion object {
 

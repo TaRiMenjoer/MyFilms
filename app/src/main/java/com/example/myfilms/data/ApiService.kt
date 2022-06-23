@@ -65,6 +65,12 @@ interface ApiService {
         @Query("session_id") session_id: String = SESSION_ID
     ): Response<AccountDetails>
 
+    @GET("movie/{movie_id}/credits")
+    suspend fun getCredits(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") key: String = API_KEY,
+        @Query("language") lang: String = PARAMS_LANGUAGE
+    ): Response<CreditResponse>
 
     companion object {
 

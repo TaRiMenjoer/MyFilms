@@ -52,5 +52,8 @@ data class Movie(
     @Expose
     val tagline: String? = null,
 
+    @SerializedName("vote_average")
+    val voteAverage: Double,
+
     var isLiked: Boolean = false
 ) : Parcelable

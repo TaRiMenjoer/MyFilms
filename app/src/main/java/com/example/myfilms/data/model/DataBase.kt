@@ -24,7 +24,7 @@ abstract class DataBase : RoomDatabase() {
                 INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
                     DataBase::class.java,
-                    "app_database2.db"
+                    "app_database3.db"
                 ).build()
             }
             return INSTANCE!!

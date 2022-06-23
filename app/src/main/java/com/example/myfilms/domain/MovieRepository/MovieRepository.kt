@@ -1,5 +1,6 @@
 package com.example.myfilms.domain.MovieRepository
 
+import com.example.myfilms.data.model.CreditResponse
 import com.example.myfilms.data.model.LoginApprove
 import com.example.myfilms.data.model.Movie
 import com.example.myfilms.data.model.Session
@@ -13,4 +14,5 @@ interface MovieRepository {
     suspend fun downloadFavouritesData(session: String): List<Movie>?
     suspend fun getResponseSession(data: LoginApprove): Response<Session>
     suspend fun deleteSession()
+    suspend fun getCreditResponse(movieId: Int): Response<CreditResponse>
 }

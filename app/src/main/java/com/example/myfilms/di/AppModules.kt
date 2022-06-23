@@ -32,7 +32,9 @@ val repositoryModule = module{
 
 val viewModelModule = module {
     viewModel { MainViewModel(application = get() , deleteSessionUseCase = get()) }
-    viewModel { ViewModelDetails(application = get() , getMovieByIdUseCase = get() , addOrRemoveFavouritesUseCase = get() , postFavouriteMoviesUseCase = get()) }
+    viewModel { ViewModelDetails(application = get() , getMovieByIdUseCase = get() ,
+        addOrRemoveFavouritesUseCase = get() , postFavouriteMoviesUseCase = get() ,
+        getCreditResponseUseCase = get()) }
     viewModel { ViewModelFavourites(application = get() , downloadFavouritesDataUseCase = get()) }
     viewModel { ViewModelLogin(application = get() , getResponseSessionUseCase = get()) }
     viewModel { ViewModelMovie(application = get() , downloadMovieListUseCase = get()) }
@@ -47,6 +49,7 @@ val useCaseModule = module {
     single { DownloadFavouritesDataUseCase(repository = get()) }
     single { GetResponseSessionUseCase(repository = get()) }
     single { DeleteSessionUseCase(repository = get()) }
+    single { GetCreditResponseUseCase(repository = get())}
 }
 
 val appModule = networkModule + daoModule + repositoryModule + viewModelModule + useCaseModule

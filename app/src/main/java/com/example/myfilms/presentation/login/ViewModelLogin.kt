@@ -1,12 +1,10 @@
 package com.example.myfilms.presentation.login
 
 import android.app.Application
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myfilms.R
 import com.example.myfilms.data.model.LoginApprove
 import com.example.myfilms.domain.UseCases.GetResponseSessionUseCase
 import com.example.myfilms.presentation.common.Utils.LoadingState
@@ -16,6 +14,7 @@ class ViewModelLogin(application: Application ,
                      private val getResponseSessionUseCase: GetResponseSessionUseCase) : AndroidViewModel(application) {
 
     private val context = application
+
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
